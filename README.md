@@ -82,12 +82,38 @@ npm start
 הסיסמה נשמרת רק בהגדרות השרת — לא בקוד ולא במסד הנתונים.
 עד שהיא מוזנת הדשבורד עובד רגיל ומציג את נתוני הייצוא, עם התראה שהקליטה כבויה.
 
-## פריסה
+## פריסה ל-Render
 
-`render.yaml` מגדיר שירות web עם דיסק קבוע ב-`/var/data`, בדיוק כמו ב-`ows-crm`.
-משתני הסביבה הרגישים (`IMAP_USER`, `IMAP_PASS`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`)
-מסומנים `sync: false` — כלומר מוזנים ידנית בלוח הבקרה ולא נכנסים לקוד.
-בעלייה ראשונה על דיסק ריק `prestart` זורע את הבסיס לבד.
+`render.yaml` מגדיר שירות web בתוכנית Starter עם דיסק קבוע ב-`/var/data`, בדיוק
+כמו ב-`ows-crm`. בעלייה ראשונה על דיסק ריק `prestart` זורע את הבסיס לבד.
+
+**פעם אחת:**
+
+1. [github.com/new](https://github.com/new) → repo **פרטי** בשם `ows-grow-dashboard`,
+   בלי README/gitignore/license.
+2. ```bash
+   git remote add origin https://github.com/karinlah/ows-grow-dashboard.git
+   git branch -M main && git push -u origin main
+   ```
+3. ב-[dashboard.render.com](https://dashboard.render.com) → `New` → `Blueprint` →
+   לבחור את ה-repo. Render קורא את `render.yaml` ומקים את השירות והדיסק לבד.
+4. במסך שנפתח למלא את ארבעת המשתנים המסומנים `sync: false`:
+
+   | משתנה | ערך |
+   |---|---|
+   | `IMAP_USER` | כתובת הג'ימייל שאליה מגיעים מיילי Grow |
+   | `IMAP_PASS` | סיסמת האפליקציה (לא הסיסמה הרגילה) |
+   | `ADMIN_EMAIL` | האימייל לכניסה לדשבורד |
+   | `ADMIN_PASSWORD` | הסיסמה לכניסה לדשבורד |
+
+   `SESSION_SECRET` נוצר אוטומטית. אין צורך לגעת ב-`DB_PATH` ו-`NODE_ENV`.
+5. `Apply` / `Deploy`. הבנייה לוקחת דקה-שתיים, ואז הכתובת שמתקבלת היא הדשבורד.
+
+**מכאן והלאה:** `git push origin main` מפרסם אוטומטית. במהלך הדיפלוי יש כמה
+שניות של 502 — זה נורמלי ולא אומר שמשהו נשבר.
+
+**מה לבדוק אחרי הדיפלוי הראשון:** להיכנס לטאב "קליטת מיילים" ולוודא שכתוב
+"מחובר · כל 15 דקות" ושהשליפה האחרונה רצה בלי שגיאה.
 
 ## מבנה
 
