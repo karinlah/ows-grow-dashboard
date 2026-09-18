@@ -6,6 +6,14 @@ services:
     buildCommand: npm install
     startCommand: npm start
     envVars:
+      # גרסת Node מוצמדת בכוונה.
+      # ברירת המחדל של Render לשירותים חדשים (24.21.0) מפילה את
+      # better-sqlite3 ב-SIGABRT על כל statement שנהרס:
+      #   Assertion failed: (env) != nullptr  ->  Statement::~Statement()
+      # 24.14.1 היא הגרסה ש-ows-crm רץ עליה בהצלחה עם אותה ספרייה.
+      # לשחרור ההצמדה צריך קודם לשדרג את better-sqlite3 ולבדוק.
+      - key: NODE_VERSION
+        value: 24.14.1
       - key: NODE_ENV
         value: production
       - key: SESSION_SECRET

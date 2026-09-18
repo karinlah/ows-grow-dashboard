@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "ONE WOMAN SHOW — דשבורד הרשמות והכנסות מ-Grow",
   "main": "server.js",
+  "engines": {
+    "node": "24.14.1"
+  },
   "scripts": {
     "prestart": "node db/seed-if-empty.js",
     "start": "node server.js",
