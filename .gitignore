@@ -1,0 +1,12 @@
+node_modules/
+db/*.db
+.env
+.DS_Store
+
+# ייצואים גולמיים מ-Grow — מכילים פרטי לקוחות.
+# קובץ הבסיס data/baseline-*.json כן נכנס ל-git: הוא נדרש כדי שהמערכת
+# תעלה עם הנתונים בדיפלוי ראשון. המאגר חייב להישאר פרטי.
+data/*.xlsx
+data/*.csv
+
+legacy/preview.html

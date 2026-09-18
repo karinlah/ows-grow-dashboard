@@ -1,0 +1,278 @@
+<!-- ONE WOMAN SHOW — דשבורד הרשמות Grow -->
+<base target="_top">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#052727; --cream:#ede0d5; --accent:#ed1667;
+    --ink-70:rgba(5,39,39,.70); --ink-45:rgba(5,39,39,.45); --ink-12:rgba(5,39,39,.12);
+    --paper:#fbf7f3; --card:#ffffff; --radius:18px;
+    --shadow:0 1px 2px rgba(5,39,39,.05), 0 8px 28px rgba(5,39,39,.07);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Heebo',system-ui,-apple-system,sans-serif; font-size:15px; direction:rtl;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px; margin:0 auto; padding:28px 20px 72px}
+
+  /* ---------- header ---------- */
+  header{display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-bottom:26px}
+  .brand{font-family:'Montserrat',sans-serif; font-weight:700; font-size:12px; letter-spacing:.32em;
+         color:var(--ink-45); margin-bottom:6px}
+  h1{margin:0; font-size:30px; font-weight:700; letter-spacing:-.01em}
+  .meta{font-size:13px; color:var(--ink-45); margin-top:6px}
+  .actions{display:flex; gap:10px; align-items:center}
+  button.refresh{
+    font-family:inherit; font-size:14px; font-weight:500; cursor:pointer;
+    background:var(--ink); color:var(--cream); border:0; border-radius:999px;
+    padding:11px 22px; transition:transform .12s ease, opacity .12s ease;
+  }
+  button.refresh:hover{transform:translateY(-1px)}
+  button.refresh:disabled{opacity:.5; cursor:wait; transform:none}
+  a.ghost{
+    font-size:14px; text-decoration:none; color:var(--ink-70); border:1px solid var(--ink-12);
+    border-radius:999px; padding:10px 20px; transition:border-color .12s ease;
+  }
+  a.ghost:hover{border-color:var(--ink)}
+
+  /* ---------- kpis ---------- */
+  .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:34px}
+  .kpi{background:var(--card); border-radius:var(--radius); padding:22px 24px; box-shadow:var(--shadow)}
+  .kpi.hero{background:var(--ink); color:var(--cream)}
+  .kpi .label{font-size:13px; color:var(--ink-45); font-weight:500}
+  .kpi.hero .label{color:rgba(237,224,213,.6)}
+  .kpi .value{font-size:34px; font-weight:700; line-height:1.15; margin-top:8px; letter-spacing:-.02em}
+  .kpi .sub{font-size:12px; color:var(--ink-45); margin-top:5px}
+  .kpi.hero .sub{color:rgba(237,224,213,.55)}
+
+  /* ---------- sections ---------- */
+  h2{font-size:14px; font-weight:700; letter-spacing:.06em; color:var(--ink-45);
+     margin:0 0 14px; text-transform:uppercase}
+  section{margin-bottom:34px}
+
+  .product{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+           padding:22px 24px; margin-bottom:12px}
+  .product-head{display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap}
+  .product-name{font-size:20px; font-weight:700}
+  .product-nums{display:flex; gap:26px; align-items:baseline}
+  .product-nums b{font-size:20px; font-weight:700}
+  .product-nums span{font-size:12px; color:var(--ink-45); margin-inline-start:5px}
+  .bar{height:6px; background:var(--ink-12); border-radius:99px; margin:16px 0 4px; overflow:hidden}
+  .bar i{display:block; height:100%; background:var(--accent); border-radius:99px}
+
+  .sessions{margin-top:16px; border-top:1px solid var(--ink-12); padding-top:6px}
+  .session{display:flex; align-items:center; justify-content:space-between; gap:14px;
+           padding:10px 0; border-bottom:1px solid rgba(5,39,39,.06); font-size:14px}
+  .session:last-child{border-bottom:0}
+  .session .nm{font-weight:500}
+  .session .st{color:var(--ink-45); font-size:13px; display:flex; gap:20px}
+  .session .st b{color:var(--ink); font-weight:600}
+
+  /* ---------- table ---------- */
+  .toolbar{display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap}
+  input[type=search], select{
+    font-family:inherit; font-size:14px; padding:10px 15px; border-radius:999px;
+    border:1px solid var(--ink-12); background:var(--card); color:var(--ink); outline:none;
+  }
+  input[type=search]{flex:1; min-width:220px}
+  input[type=search]:focus, select:focus{border-color:var(--ink)}
+  .tablecard{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden}
+  .scroll{overflow-x:auto}
+  table{width:100%; border-collapse:collapse; font-size:14px; min-width:980px}
+  th{text-align:right; font-size:12px; font-weight:600; color:var(--ink-45);
+     padding:14px 16px; border-bottom:1px solid var(--ink-12); white-space:nowrap}
+  td{padding:13px 16px; border-bottom:1px solid rgba(5,39,39,.055); vertical-align:top}
+  tbody tr:last-child td{border-bottom:0}
+  tbody tr:hover{background:rgba(237,224,213,.28)}
+  td.name{font-weight:500; white-space:nowrap}
+  td.product{white-space:nowrap}
+  td.amount{font-weight:600; white-space:nowrap}
+  td.dim{color:var(--ink-45); white-space:nowrap}
+  .pill{display:inline-block; font-size:12px; padding:3px 11px; border-radius:99px;
+        background:var(--cream); color:var(--ink); white-space:nowrap}
+  .muted{padding:40px; text-align:center; color:var(--ink-45)}
+
+  /* ---------- notices ---------- */
+  .notice{display:flex; gap:10px; align-items:flex-start; background:#fff; border-inline-start:3px solid var(--accent);
+          border-radius:12px; padding:14px 18px; font-size:14px; margin-bottom:14px; box-shadow:var(--shadow)}
+  .notice b{font-weight:600}
+  footer{margin-top:40px; font-size:12px; color:var(--ink-45); line-height:1.8}
+
+  @media (max-width:860px){
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    h1{font-size:24px}
+  }
+  @media (max-width:520px){
+    .kpis{grid-template-columns:1fr}
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="brand">ONE WOMAN SHOW</div>
+      <h1>דשבורד הרשמות</h1>
+      <div class="meta" id="meta">טוען נתונים…</div>
+    </div>
+    <div class="actions">
+      <a class="ghost" id="sheetLink" href="#" target="_blank">הגיליון הגולמי</a>
+      <button class="refresh" id="refreshBtn" onclick="refresh()">רענון עכשיו</button>
+    </div>
+  </header>
+
+  <div id="notices"></div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section>
+    <h2>לפי מוצר</h2>
+    <div id="products"></div>
+  </section>
+
+  <section>
+    <h2>כל ההרשמות</h2>
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="חיפוש לפי שם, מייל או טלפון…" oninput="render()">
+      <select id="filter" onchange="render()"><option value="">כל המוצרים</option></select>
+    </div>
+    <div class="tablecard">
+      <div class="scroll"><table>
+        <thead><tr>
+          <th>תאריך</th><th>שם</th><th>מייל</th><th>טלפון</th>
+          <th>מוצר</th><th>מועד</th><th>סכום</th><th>אמצעי</th><th>אסמכתא</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <footer>
+    הנתונים נשלפים אוטומטית ממיילי Grow ("בוצע תשלום עבור בעל העסק") כל 15 דקות, בשרתי גוגל — גם כשהמחשב כבוי.<br>
+    הדשבורד פרטי לחלוטין וגלוי רק לחשבון הגוגל שפרס אותו.
+  </footer>
+</div>
+
+<script>
+  var DATA = null;
+
+  var ils = function (n) {
+    return '₪' + Math.round(n).toLocaleString('he-IL');
+  };
+  var esc = function (s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  };
+
+  function load() {
+    google.script.run.withSuccessHandler(onData).withFailureHandler(onError).getDashboardData();
+  }
+
+  function refresh() {
+    var b = document.getElementById('refreshBtn');
+    b.disabled = true; b.textContent = 'מרענן…';
+    google.script.run
+      .withSuccessHandler(function (d) { onData(d); b.disabled = false; b.textContent = 'רענון עכשיו'; })
+      .withFailureHandler(function (e) { onError(e); b.disabled = false; b.textContent = 'רענון עכשיו'; })
+      .refreshNow();
+  }
+
+  function onError(e) {
+    document.getElementById('meta').textContent = 'שגיאה: ' + (e && e.message ? e.message : e);
+  }
+
+  function onData(d) {
+    DATA = d;
+    document.getElementById('meta').textContent = 'עודכן ' + d.updatedAt;
+    document.getElementById('sheetLink').href = d.sheetUrl;
+
+    document.getElementById('kpis').innerHTML =
+      card('סך הכל הרשמות', d.totals.count.toLocaleString('he-IL'), 'עסקאות שנקלטו', true) +
+      card('סך הכל הכנסות', ils(d.totals.revenue), 'ברוטו, לפני עמלות סליקה') +
+      card('ממוצע לעסקה', ils(d.totals.avg), '') +
+      card('מוצרים פעילים', String(d.totals.products), '');
+
+    var notices = '';
+    if (d.problems) {
+      notices += '<div class="notice"><b>' +
+        (d.problems === 1 ? 'רשומה אחת לבדיקה' : d.problems + ' רשומות לבדיקה') + '</b> — ' +
+        'לא הצלחתי לחלץ סכום או שם מוצר מהמייל. מסומן בגיליון הגולמי כ-CHECK.</div>';
+    }
+    if (d.credits) {
+      notices += '<div class="notice">' +
+        (d.credits === 1
+          ? '<b>חשבונית זיכוי אחת</b> נמצאה בתיבה. היא <u>אינה</u> מנוכה'
+          : '<b>' + d.credits + ' חשבוניות זיכוי</b> נמצאו בתיבה. הן <u>אינן</u> מנוכות') +
+        ' מסך ההכנסות שלמעלה — כדאי לוודא מולן.</div>';
+    }
+    document.getElementById('notices').innerHTML = notices;
+
+    var sel = document.getElementById('filter');
+    sel.innerHTML = '<option value="">כל המוצרים</option>' + d.products.map(function (p) {
+      return '<option value="' + esc(p.product) + '">' + esc(p.product) + '</option>';
+    }).join('');
+
+    renderProducts();
+    render();
+  }
+
+  function card(label, value, sub, hero) {
+    return '<div class="kpi' + (hero ? ' hero' : '') + '">' +
+      '<div class="label">' + label + '</div>' +
+      '<div class="value">' + value + '</div>' +
+      (sub ? '<div class="sub">' + sub + '</div>' : '') + '</div>';
+  }
+
+  function renderProducts() {
+    var max = Math.max.apply(null, DATA.products.map(function (p) { return p.revenue; }).concat([1]));
+    document.getElementById('products').innerHTML = DATA.products.map(function (p) {
+      return '<div class="product">' +
+        '<div class="product-head">' +
+          '<div class="product-name">' + esc(p.product) + '</div>' +
+          '<div class="product-nums">' +
+            '<div><b>' + p.count + '</b><span>הרשמות</span></div>' +
+            '<div><b>' + ils(p.revenue) + '</b><span>הכנסות</span></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="bar"><i style="width:' + (p.revenue / max * 100) + '%"></i></div>' +
+        (p.sessions.length ? '<div class="sessions">' + p.sessions.map(function (s) {
+          return '<div class="session">' +
+            '<div class="nm">' + esc(s.session) + '</div>' +
+            '<div class="st"><div><b>' + s.count + '</b> הרשמות</div>' +
+                           '<div><b>' + ils(s.revenue) + '</b></div></div>' +
+          '</div>';
+        }).join('') + '</div>' : '') +
+      '</div>';
+    }).join('') || '<div class="tablecard"><div class="muted">אין עדיין נתונים.</div></div>';
+  }
+
+  function render() {
+    var q = document.getElementById('q').value.trim().toLowerCase();
+    var f = document.getElementById('filter').value;
+
+    var rows = DATA.rows.filter(function (r) {
+      if (f && r.product !== f) return false;
+      if (!q) return true;
+      return (r.name + ' ' + r.email + ' ' + r.phone).toLowerCase().indexOf(q) !== -1;
+    });
+
+    document.getElementById('tbody').innerHTML = rows.length ? rows.map(function (r) {
+      return '<tr>' +
+        '<td class="dim">' + esc(r.date) + '</td>' +
+        '<td class="name">' + esc(r.name) + '</td>' +
+        '<td class="dim">' + esc(r.email) + '</td>' +
+        '<td class="dim">' + esc(r.phone) + '</td>' +
+        '<td class="product">' + esc(r.product) + '</td>' +
+        '<td>' + (r.session ? '<span class="pill">' + esc(r.session) + '</span>' : '') + '</td>' +
+        '<td class="amount">' + ils(r.amount) + (r.installments > 1 ? ' <span class="dim">×' + r.installments + '</span>' : '') + '</td>' +
+        '<td class="dim">' + esc(r.method) + '</td>' +
+        '<td class="dim">' + esc(r.asmachta) + '</td>' +
+      '</tr>';
+    }).join('') : '<tr><td colspan="9" class="muted">לא נמצאו רשומות</td></tr>';
+  }
+
+  load();
+</script>

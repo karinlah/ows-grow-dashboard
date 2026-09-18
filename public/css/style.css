@@ -1,0 +1,322 @@
+/* ============================================================
+   OWS — דשבורד הרשמות Grow
+   מבוסס על מערכת העיצוב של האתר (website/brand.css):
+   אותם צבעים, אותם פונטים, אותו סגנון עריכתי — פינות חדות,
+   קווי שיער דקים, כותרות Oscar, אייברו ורוד עם מספור.
+   ============================================================ */
+
+@font-face {
+  font-family: 'Oscar';
+  src: url('../fonts/oscar-light.otf') format('opentype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Heebo';
+  src: url('../fonts/Heebo-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Heebo';
+  src: url('../fonts/Heebo-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Heebo';
+  src: url('../fonts/Heebo-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  --cream: #ede0d5;
+  --cream-2: #e7d8cb;
+  --paper: #f6efe8;
+  --sand: #d6c4b3;
+  --green: #052727;
+  --green-2: #0a3433;
+  --ink: #052727;
+  --pink: #ed1667;
+  --pink-deep: #c40f55;
+  --muted: #6c6a63;
+  --line: rgba(5, 39, 39, 0.16);
+  --line-soft: rgba(5, 39, 39, 0.08);
+  --line-cream: rgba(237, 224, 213, 0.22);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Heebo', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+::selection { background: var(--pink); color: #fff; }
+
+.display {
+  font-family: 'Oscar', 'Heebo', sans-serif;
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  color: var(--pink);
+  text-transform: uppercase;
+}
+.eyebrow .ln { width: 38px; height: 1px; background: var(--pink); opacity: 0.6; }
+
+/* ============ TOP BAR ============ */
+.topbar { background: var(--green); color: var(--cream); }
+.topbar-in {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 18px 28px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.topbar img { width: 132px; height: auto; }
+.topbar .spacer { margin-inline-start: auto; }
+.topbar .who { font-size: 13.5px; letter-spacing: 0.04em; color: var(--cream); opacity: 0.85; }
+.linkish {
+  background: none;
+  border: 0;
+  color: var(--cream);
+  font-family: inherit;
+  font-size: 13.5px;
+  cursor: pointer;
+  padding: 4px 0;
+  border-bottom: 1px solid transparent;
+  transition: color 0.25s, border-color 0.25s;
+}
+.linkish:hover { color: #fff; border-bottom-color: var(--pink); }
+
+/* ============ TABS ============ */
+.tabs { border-bottom: 1px solid var(--line); background: var(--cream); position: sticky; top: 0; z-index: 20; }
+.tabs-in { max-width: 1180px; margin: 0 auto; padding: 0 28px; display: flex; gap: 30px; }
+.tab {
+  background: none;
+  border: 0;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--muted);
+  padding: 18px 0;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.25s, border-color 0.25s;
+}
+.tab:hover { color: var(--ink); }
+.tab.active { color: var(--ink); border-bottom-color: var(--pink); }
+
+/* ============ SECTIONS ============ */
+.section { padding: 46px 0 10px; }
+.section-head { display: flex; align-items: flex-end; gap: 20px; margin-bottom: 26px; flex-wrap: wrap; }
+.section-head h2 { font-size: clamp(26px, 3.4vw, 38px); }
+.section-head .note { font-size: 13.5px; color: var(--muted); margin-inline-start: auto; }
+
+/* בורר "המוצר במוקד" — יושב בין הכותרת להערה */
+.focus { display: flex; align-items: center; gap: 10px; margin-inline-start: auto; }
+.focus > span {
+  font-size: 11.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.focus select {
+  font-family: inherit;
+  font-size: 14.5px;
+  padding: 9px 13px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+}
+.section-head .focus + .note { margin-inline-start: 0; }
+
+/* בלוק "מוצרים נוספים" — נוכח אבל מונמך, כדי שלא יתחרה במספרים הראשיים */
+.product.muted { background: transparent; border-style: dashed; }
+.product.muted .product-head { border-bottom-style: dashed; }
+.product.muted .product-head h3 { font-size: 20px; color: var(--muted); }
+.linkish.dark { color: var(--pink); font-size: 13px; }
+.linkish.dark:hover { color: var(--pink-deep); border-bottom-color: var(--pink-deep); }
+
+/* ============ STAT CARDS ============ */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.stat { background: var(--paper); padding: 26px 24px 22px; }
+.stat .label {
+  font-size: 11.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.stat .value { font-family: 'Oscar', 'Heebo', sans-serif; font-size: 46px; line-height: 1; letter-spacing: -0.02em; }
+.stat .value .cur { font-size: 26px; color: var(--pink); margin-inline-start: 6px; }
+td .cur, .product-head .cur { margin-inline-start: 3px; color: var(--pink); }
+.stat .sub { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+/* ============ PRODUCT BLOCKS ============ */
+.product { border: 1px solid var(--line); background: var(--paper); margin-bottom: 22px; }
+.product-head {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+.product-head h3 { font-family: 'Oscar', 'Heebo', sans-serif; font-size: 27px; font-weight: 400; letter-spacing: -0.01em; }
+.product-head .count { font-size: 14px; color: var(--muted); }
+.product-head .rev { margin-inline-start: auto; font-family: 'Oscar', 'Heebo', sans-serif; font-size: 27px; }
+.product-head .rev .cur { font-size: 17px; color: var(--pink); }
+
+/* ============ TABLES ============ */
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+th {
+  text-align: start;
+  font-weight: 500;
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 13px 24px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+td { padding: 14px 24px; border-bottom: 1px solid var(--line-soft); vertical-align: middle; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr { transition: background 0.2s; }
+tbody tr:hover { background: var(--cream-2); }
+.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.nowrap { white-space: nowrap; }
+.strong { font-weight: 500; }
+.dim { color: var(--muted); }
+
+/* bar inside the session table — share of the product's registrations */
+.bar { height: 4px; background: var(--sand); position: relative; min-width: 60px; }
+.bar span { position: absolute; inset-block: 0; inset-inline-start: 0; background: var(--pink); }
+
+/* ============ PILLS ============ */
+.pill {
+  display: inline-block;
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  padding: 3px 10px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.pill.email { border-color: var(--pink); color: var(--pink); }
+.pill.credited { border-color: var(--pink-deep); color: var(--pink-deep); }
+
+/* ============ BUTTONS ============ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--green);
+  color: var(--cream);
+  padding: 13px 30px;
+  border: 1px solid var(--green);
+  font-family: inherit;
+  font-size: 14.5px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.btn:hover { background: var(--pink); border-color: var(--pink); color: #fff; }
+.btn.ghost { background: transparent; color: var(--green); }
+.btn.ghost:hover { background: var(--green); color: var(--cream); }
+.btn[disabled] { opacity: 0.45; cursor: progress; }
+:focus-visible { outline: 2px solid var(--pink); outline-offset: 3px; }
+
+/* ============ NOTICES ============ */
+.notice {
+  border: 1px solid var(--line);
+  border-inline-start: 3px solid var(--pink);
+  background: var(--paper);
+  padding: 16px 20px;
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+.notice.quiet { border-inline-start-color: var(--sand); color: var(--muted); }
+.notice strong { font-weight: 500; }
+
+/* ============ FILTER BAR ============ */
+.filters { display: flex; gap: 14px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+.filters input, .filters select {
+  font-family: inherit;
+  font-size: 14.5px;
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  min-width: 190px;
+}
+.filters .result { font-size: 13.5px; color: var(--muted); margin-inline-start: auto; }
+
+/* ============ LOGIN ============ */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--green);
+  padding: 28px;
+}
+.login-card { width: 100%; max-width: 420px; text-align: center; }
+.login-card > img { width: 190px; margin: 0 auto 44px; }
+.login-card h1 { font-family: 'Oscar', 'Heebo', sans-serif; font-weight: 400; font-size: 34px; color: var(--cream); margin-bottom: 8px; }
+.login-card p.sub { color: var(--cream); opacity: 0.6; font-size: 14px; margin-bottom: 34px; }
+.login-card input {
+  width: 100%;
+  font-family: 'Montserrat', 'Heebo', sans-serif;
+  font-size: 15px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  background: transparent;
+  border: 1px solid var(--line-cream);
+  color: var(--cream);
+  text-align: start;
+  direction: ltr;
+}
+.login-card input::placeholder { color: rgba(237, 224, 213, 0.45); }
+.login-card input:focus { border-color: var(--pink); outline: none; }
+.login-card .btn { width: 100%; justify-content: center; background: var(--pink); border-color: var(--pink); color: #fff; margin-top: 8px; }
+.login-card .btn:hover { background: #fff; color: var(--green); border-color: #fff; }
+.login-error { color: #ff9ec2; font-size: 14px; min-height: 22px; margin-top: 14px; }
+
+/* ============ MISC ============ */
+.loading { padding: 70px 0; text-align: center; color: var(--muted); }
+.empty { padding: 40px 24px; text-align: center; color: var(--muted); font-size: 14.5px; }
+footer { margin-top: 60px; border-top: 1px solid var(--line); padding: 26px 0 50px; font-size: 12.5px; color: var(--muted); }
+
+@media (max-width: 900px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 620px) {
+  .wrap, .tabs-in, .topbar-in { padding-inline: 16px; }
+  .stats { grid-template-columns: 1fr; }
+  .stat .value { font-size: 38px; }
+  .tabs-in { gap: 18px; overflow-x: auto; }
+  .tab { white-space: nowrap; font-size: 14px; }
+  th, td { padding-inline: 14px; }
+}

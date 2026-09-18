@@ -1,0 +1,22 @@
+{
+  "name": "ows-grow-dashboard",
+  "version": "1.0.0",
+  "description": "ONE WOMAN SHOW — דשבורד הרשמות והכנסות מ-Grow",
+  "main": "server.js",
+  "scripts": {
+    "prestart": "node db/seed-if-empty.js",
+    "start": "node server.js",
+    "seed": "node db/seed.js",
+    "ingest": "node scripts/ingest-once.js",
+    "test": "node scripts/test-parser.js && node scripts/test-dedupe.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.3.0",
+    "dotenv": "^17.4.2",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "imapflow": "^1.0.164",
+    "mailparser": "^3.7.1"
+  }
+}
