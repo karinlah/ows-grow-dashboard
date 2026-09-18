@@ -14,7 +14,8 @@ const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const db = require('../db');
-const { SINCE_KEY } = require('../lib/ingest');
+
+const { SINCE_KEY } = db;
 
 const BASELINE = path.join(__dirname, '..', 'data', 'baseline-2026-09-17.json');
 
@@ -83,3 +84,9 @@ console.log(`נזרעו ${count} עסקאות מהייצוא.`);
 console.log(`בתוקף: ${totals.n} עסקאות, ${Number(totals.sum).toLocaleString('he-IL')} ₪`);
 console.log(`קליטת מיילים תתחיל מ-${db.getSetting(SINCE_KEY)}`);
 console.log(`התחברות: ${ADMIN_EMAIL} / ${ADMIN_PASSWORD}`);
+
+// סגירה מפורשת לפני שהתהליך נגמר. בלעדיה better-sqlite3 הורס statements
+// שנשארו פתוחים אחרי שסביבת Node כבר נהרסה, וזה מפיל את התהליך ב-SIGABRT
+// (status 134) — מה שהפיל את הדיפלוי הראשון ב-Render.
+// רק כשהקובץ הורץ ישירות; כשהוא נטען מ-seed-if-empty.js הסגירה שם.
+if (require.main === module) db.close();

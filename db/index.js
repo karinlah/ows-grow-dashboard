@@ -32,6 +32,12 @@ void addColumn;
 
 module.exports = db;
 
+// מפתחות הגדרות משותפים. הם יושבים כאן ולא ב-lib/ingest.js כדי שסקריפט
+// הזריעה יוכל להשתמש בהם בלי לטעון את מודול הקליטה — טעינה כזו מושכת את
+// imapflow ומכינה statements שאין בהם צורך בזריעה.
+module.exports.SINCE_KEY = 'ingest_since';
+module.exports.FOCUS_KEY = 'focus_product';
+
 module.exports.getSetting = function getSetting(key, fallback = null) {
   const row = db.prepare('SELECT value FROM settings WHERE key = ?').get(key);
   return row ? row.value : fallback;

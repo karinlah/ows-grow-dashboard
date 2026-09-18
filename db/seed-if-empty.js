@@ -16,3 +16,6 @@ if (hasUsers && hasTx) {
   console.log('מסד נתונים ריק — זורעים מהייצוא הרשמי.');
   require('./seed.js');
 }
+
+// חובה לפני סיום התהליך — ראי ההסבר ב-db/seed.js
+db.close();
