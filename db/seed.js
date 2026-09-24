@@ -12,8 +12,8 @@ require('dotenv').config();
 
 const fs = require('fs');
 const path = require('path');
-const bcrypt = require('bcryptjs');
 const db = require('../db');
+const { syncAdmin } = require('./admin');
 
 const { SINCE_KEY } = db;
 
@@ -24,14 +24,7 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ows';
 const ADMIN_NAME = process.env.ADMIN_NAME || 'קארין';
 
 function seedAdmin() {
-  const existing = db.prepare('SELECT id FROM users WHERE email = ?').get(ADMIN_EMAIL);
-  const hash = bcrypt.hashSync(ADMIN_PASSWORD.trim().toLowerCase(), 10);
-  if (existing) {
-    db.prepare('UPDATE users SET name = ?, password_hash = ? WHERE id = ?').run(ADMIN_NAME, hash, existing.id);
-  } else {
-    db.prepare('INSERT INTO users (name, email, role, password_hash) VALUES (?, ?, ?, ?)')
-      .run(ADMIN_NAME, ADMIN_EMAIL, 'admin', hash);
-  }
+  syncAdmin({ email: ADMIN_EMAIL, password: ADMIN_PASSWORD, name: ADMIN_NAME });
 }
 
 function seedTransactions() {
@@ -83,7 +76,7 @@ const totals = db
 console.log(`נזרעו ${count} עסקאות מהייצוא.`);
 console.log(`בתוקף: ${totals.n} עסקאות, ${Number(totals.sum).toLocaleString('he-IL')} ₪`);
 console.log(`קליטת מיילים תתחיל מ-${db.getSetting(SINCE_KEY)}`);
-console.log(`התחברות: ${ADMIN_EMAIL} / ${ADMIN_PASSWORD}`);
+console.log(`התחברות: ${ADMIN_EMAIL}`);
 
 // סגירה מפורשת לפני שהתהליך נגמר. בלעדיה better-sqlite3 הורס statements
 // שנשארו פתוחים אחרי שסביבת Node כבר נהרסה, וזה מפיל את התהליך ב-SIGABRT
