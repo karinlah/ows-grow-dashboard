@@ -46,17 +46,6 @@ router.get('/', (req, res) => {
     )
     .all(params);
 
-  // המוצרים שמחוץ למוקד — נאספים ומוצגים בנפרד, כדי שלא ייעלמו בשקט
-  const others = focus
-    ? db
-        .prepare(
-          `SELECT product, COUNT(*) AS count, COALESCE(SUM(amount), 0) AS revenue
-             FROM transactions WHERE ${CHARGED} AND product <> @focus
-             GROUP BY product ORDER BY revenue DESC`
-        )
-        .all({ focus })
-    : [];
-
   const allProducts = db
     .prepare(`SELECT DISTINCT product FROM transactions WHERE ${CHARGED} ORDER BY product`)
     .all()
@@ -118,7 +107,6 @@ router.get('/', (req, res) => {
     },
     focus,
     allProducts,
-    others,
     products: byProduct,
     methods,
     credited,

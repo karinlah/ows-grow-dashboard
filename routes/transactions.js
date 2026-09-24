@@ -34,7 +34,20 @@ router.get('/', (req, res) => {
     )
     .all(params);
 
-  res.json({ count: rows.length, rows });
+  // המועדים של המוצר הנבחר, לסלקט "סדנה". נספרים בלי החיפוש והמועד עצמו,
+  // כדי שהרשימה לא תתכווץ תוך כדי סינון.
+  const sessions = product
+    ? db
+        .prepare(
+          `SELECT CASE WHEN session IS NULL OR session = '' THEN '—' ELSE session END AS session,
+                  COUNT(*) AS count
+             FROM transactions WHERE status = 'charged' AND product = ?
+             GROUP BY 1`
+        )
+        .all(product)
+    : [];
+
+  res.json({ count: rows.length, rows, sessions });
 });
 
 /** מיילים שהפרסור נכשל עליהם — כדי שאפשר יהיה לראות מה פוספס ולתקן */

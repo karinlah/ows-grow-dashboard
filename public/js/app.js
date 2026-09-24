@@ -25,6 +25,12 @@ function niceDate(value) {
   return `${m[3]}.${m[2]}.${m[1].slice(2)}${m[4] ? ` ${m[4]}` : ''}`;
 }
 
+/** "28.9 בשעות 18:00-20:30" -> מספר למיון כרונולוגי (חודש*100+יום). מועד בלי תאריך — בסוף. */
+function sessionOrder(session) {
+  const m = String(session || '').match(/^(\d{1,2})[.\/](\d{1,2})/);
+  return m ? Number(m[2]) * 100 + Number(m[1]) : 9999;
+}
+
 async function api(path, options) {
   const res = await fetch(path, options);
   if (res.status === 401) {
@@ -159,34 +165,6 @@ function noticesView(d) {
   return out.join('');
 }
 
-/** המוצרים שמחוץ למוקד — מוצגים מוקטן, כדי שיהיו זמינים בלי להסיח */
-function othersView(d) {
-  if (!d.others || !d.others.length) return '';
-  const rows = d.others
-    .map(
-      (o) => `<tr>
-        <td class="strong">${esc(o.product)}</td>
-        <td class="num">${plain(o.count)}</td>
-        <td class="num">${shekel(o.revenue)}</td>
-        <td><button class="linkish dark" data-focus="${esc(o.product)}">הצג כמוקד</button></td>
-      </tr>`
-    )
-    .join('');
-  return `
-    <section class="product muted">
-      <div class="product-head">
-        <h3>מוצרים נוספים</h3>
-        <span class="count">לא נכללים במספרים שלמעלה</span>
-      </div>
-      <div class="table-scroll">
-        <table>
-          <thead><tr><th>מוצר</th><th>הרשמות</th><th>הכנסות</th><th></th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-    </section>`;
-}
-
 function focusPicker(d) {
   const options = (d.allProducts || [])
     .map((p) => `<option value="${esc(p)}" ${d.focus === p ? 'selected' : ''}>${esc(p)}</option>`)
@@ -219,7 +197,6 @@ function overviewView() {
       <div class="section-head"><h2 class="display">${d.focus ? 'פר מועד' : 'פר מוצר'}</h2></div>
       ${productsView(d)}
       ${methodsView(d)}
-      ${othersView(d)}
     </div>`;
 }
 
@@ -233,6 +210,18 @@ function transactionsView() {
   const options = products
     .map((p) => `<option value="${esc(p)}" ${f.product === p ? 'selected' : ''}>${esc(p)}</option>`)
     .join('');
+
+  // סינון לפי סדנה — כל מועד בנפרד. מופיע רק כשנבחר מוצר שיש לו יותר ממועד אחד.
+  const sessions = (data?.sessions || []).slice().sort((a, b) => sessionOrder(a.session) - sessionOrder(b.session));
+  const sessionSelect =
+    f.product && sessions.length > 1
+      ? `<select id="session"><option value="">כל המועדים</option>${sessions
+          .map(
+            (s) =>
+              `<option value="${esc(s.session)}" ${f.session === s.session ? 'selected' : ''}>${esc(s.session)} · ${plain(s.count)}</option>`
+          )
+          .join('')}</select>`
+      : '';
 
   const rows = !data
     ? ''
@@ -267,6 +256,7 @@ function transactionsView() {
       <div class="filters">
         <input type="search" id="q" placeholder="חיפוש שם, מייל, טלפון או אסמכתא" value="${esc(f.q || '')}">
         <select id="product"><option value="">כל המוצרים</option>${options}</select>
+        ${sessionSelect}
         <a class="btn ghost" href="/api/export">ייצוא CSV</a>
         <span class="result">${data ? `${plain(data.count)} תוצאות` : 'טוען…'}</span>
       </div>
@@ -412,16 +402,21 @@ function wireUp() {
   if (product) {
     product.addEventListener('change', () => {
       state.filters.product = product.value;
+      state.filters.session = ''; // מועדים שייכים למוצר — מתחילים מחדש
+      loadTransactions().then(render);
+    });
+  }
+
+  const session = document.getElementById('session');
+  if (session) {
+    session.addEventListener('change', () => {
+      state.filters.session = session.value;
       loadTransactions().then(render);
     });
   }
 
   const focus = document.getElementById('focus');
   if (focus) focus.addEventListener('change', () => setFocus(focus.value));
-
-  document.querySelectorAll('[data-focus]').forEach((btn) => {
-    btn.addEventListener('click', () => setFocus(btn.dataset.focus));
-  });
 
   const refresh = document.getElementById('refresh');
   if (refresh) {
@@ -458,6 +453,7 @@ async function setFocus(product) {
     // טבלת העסקאות מסוננת לפי המוקד, אז היא צריכה להיטען מחדש
     state.transactions = null;
     state.filters.product = undefined;
+    state.filters.session = '';
     await loadDashboard();
     render();
   } catch (e) {
@@ -474,6 +470,7 @@ async function loadTransactions() {
   const params = new URLSearchParams();
   if (state.filters.q) params.set('q', state.filters.q);
   if (state.filters.product) params.set('product', state.filters.product);
+  if (state.filters.product && state.filters.session) params.set('session', state.filters.session);
   state.transactions = await api(`/api/transactions?${params}`);
 }
 
