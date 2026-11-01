@@ -138,15 +138,6 @@ function methodsView(d) {
 function noticesView(d) {
   const out = [];
 
-  if (d.credited.count) {
-    const one = d.credited.count === 1;
-    out.push(`<div class="notice">
-      <strong>${one ? 'עסקה אחת זוכתה' : `${plain(d.credited.count)} עסקאות זוכו`}</strong>
-      (${plain(d.credited.amount)} ₪) — ${one ? 'היא שמורה' : 'הן שמורות'} לתיעוד אבל
-      ${one ? 'אינה נספרת' : 'אינן נספרות'} בהרשמות ולא בהכנסות שלמעלה.
-    </div>`);
-  }
-
   if (d.ingest.failures) {
     const one = d.ingest.failures === 1;
     out.push(`<div class="notice">
