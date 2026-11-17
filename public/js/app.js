@@ -31,6 +31,21 @@ function sessionOrder(session) {
   return m ? Number(m[2]) * 100 + Number(m[1]) : 9999;
 }
 
+/**
+ * האם המועד עוד לפניו (כולל היום). למועד אין שנה ("10.11"), אז השנה נגזרת:
+ * תאריך שיצא יותר מחצי שנה אחורה נחשב לשנה הבאה (למשל "5.1" כשעכשיו נובמבר).
+ * מועד בלי תאריך (מנוי, ליווי) תמיד נשאר — הוא לא "עבר".
+ */
+function isUpcoming(session) {
+  const m = String(session || '').match(/^(\d{1,2})[.\/](\d{1,2})/);
+  if (!m) return true;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const date = new Date(today.getFullYear(), Number(m[2]) - 1, Number(m[1]));
+  if (today - date > 1000 * 60 * 60 * 24 * 182) date.setFullYear(date.getFullYear() + 1);
+  return date >= today;
+}
+
 async function api(path, options) {
   const res = await fetch(path, options);
   if (res.status === 401) {
@@ -78,8 +93,13 @@ function productsView(d) {
 
   return d.products
     .map((p) => {
-      const max = Math.max(...p.sessions.map((s) => s.count), 1);
-      const rows = p.sessions
+      // בסקירה מוצגים רק המועדים שעוד לא התקיימו, לפי הסדר הכרונולוגי.
+      // מועדים שעברו זמינים בטאב העסקאות.
+      const upcoming = p.sessions
+        .filter((s) => isUpcoming(s.session))
+        .sort((a, b) => sessionOrder(a.session) - sessionOrder(b.session));
+      const max = Math.max(...upcoming.map((s) => s.count), 1);
+      const rows = upcoming
         .map(
           (s) => `
           <tr>
@@ -106,6 +126,7 @@ function productsView(d) {
               </thead>
               <tbody>${rows}</tbody>
             </table>
+            ${upcoming.length ? '' : '<div class="empty">אין מועדים קרובים.</div>'}
           </div>
         </section>`;
     })
